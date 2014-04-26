@@ -1,0 +1,28 @@
+Ansible Postgresql Role
+=======================
+
+This role installs and configures postgresql on Debian and Ubuntu systems.
+See [`defaults/main.yaml`](defaults/main.yaml) for configuration options. It
+creates also a _root_ user (SUPERUSER privileges) for convenience so you
+don't have to `su` to postgres every time before you can start `psql`.
+
+Example Usage
+-------------
+
+Assuming that `test-server` will resolve to a machine (e.g. by
+defining it in `~/.ssh/config`) where the current user
+has ssh access to root though a ssh key, invoke 
+
+    ansible-playbook -i examples/hosts examples/site.yml
+
+
+Supported Ansible Versions
+--------------------------
+
+This role was tested with ansible => 1.5.
+
+Supported Operating Systems
+---------------------------
+
+Tested with Ubuntu 14.04 Trusty. Should also work with Debian 7 Wheezy and Ubuntu 12.04.
+

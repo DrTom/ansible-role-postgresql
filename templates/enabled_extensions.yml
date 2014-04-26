@@ -1,0 +1,7 @@
+# {{ansible_managed}}
+# a note on which extensions are enabled in template1 to keep ansible lazy
+
+enabled_extensions: 
+{% for extension in extensions %}
+  - {{ extension }}
+{% endfor %}
