@@ -1,5 +1,5 @@
 version: 9.3
-port: 5433
+port: 5432
 extensions: ['uuid-ossp', 'pg_trgm']
 
 max_connections: 100
