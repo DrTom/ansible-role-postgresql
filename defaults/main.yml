@@ -1,7 +1,7 @@
-version: 9.3
-port: 5432
-extensions: ['uuid-ossp', 'pg_trgm']
+postgresql_version: 9.3
+postgresql_port: 5432
+postgresql_extensions: ['uuid-ossp', 'pg_trgm']
 
-max_connections: 100
-shared_buffers: 128MB
-max_prepared_transactions: 0
+postgresql_max_connections: 100
+postgresql_shared_buffers: 128MB
+postgresql_max_prepared_transactions: 0

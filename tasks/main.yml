@@ -9,17 +9,17 @@
   with_items: 
     - libpq-dev
     - postgresql-client
-    - postgresql-contrib-{{ version }}
-    - postgresql-{{ version }}
+    - postgresql-contrib-{{ postgresql_version }}
+    - postgresql-{{ postgresql_version }}
     - python-psycopg2
 
 - name: Configure postgresql
-  template: src=postgresql-{{version}}.conf 
-            dest=/etc/postgresql/{{version}}/main/postgresql.conf mode=755
+  template: src=postgresql-{{postgresql_version}}.conf 
+            dest=/etc/postgresql/{{postgresql_version}}/main/postgresql.conf mode=755
   register: configure_pg
 
 - name: Restart postgresql
-  service: name=postgresql state=restarted arguments={{version}}
+  service: name=postgresql state=restarted arguments={{postgresql_version}}
   when: configure_pg.changed
 
 
@@ -29,21 +29,21 @@
   postgresql_user:  name=root
                     role_attr_flags=CREATEDB,SUPERUSER
                     login_user=postgres
-                    port={{port}}
+                    port={{postgresql_port}}
 
 - name: Create root database
   postgresql_db:  name=root
                   login_user=root
                   owner=root
-                  port={{port}}
+                  port={{postgresql_port}}
 
 - name: Extension note
   template: src=enabled_extensions.yml
-            dest=/etc/postgresql/{{version}}/main/enabled_extensions.yml mode=755
-  register: extensions_note
+            dest=/etc/postgresql/{{postgresql_version}}/main/enabled_extensions.yml mode=755
+  register: postgresql_extensions_note
 
 - name: Enable extensions 
-  command: psql template1 -U root -p {{port}} -c 
+  command: psql template1 -U root -p {{postgresql_port}} -c 
                 'CREATE EXTENSION IF NOT EXISTS "{{item}}";'
-  with_items: extensions
-  when: extensions_note.changed
+  with_items: postgresql_extensions
+  when: postgresql_extensions_note.changed
