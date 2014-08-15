@@ -24,5 +24,6 @@ This role was tested with ansible => 1.5.
 Supported Operating Systems
 ---------------------------
 
-Tested with Ubuntu 14.04 Trusty. Should also work with Debian 7 Wheezy and Ubuntu 12.04.
+Tested with Ubuntu 14.04 Trusty and Debian 7 Wheezy. Should also work
+with Ubuntu 12.04.
 
