@@ -1,4 +1,6 @@
-postgresql_version: 9.3
+present: True
+
+postgresql_version: 9.4
 postgresql_port: 5432
 postgresql_extensions: ['uuid-ossp', 'pg_trgm']
 

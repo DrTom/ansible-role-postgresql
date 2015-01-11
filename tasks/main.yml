@@ -13,15 +13,36 @@
     - postgresql-contrib-{{ postgresql_version }}
     - postgresql-{{ postgresql_version }}
     - python-psycopg2
+  when: present 
+
+- name: Uninstall postgresql
+  apt: pkg={{item}} state=absent update_cache=yes cache_valid_time=3600
+  with_items: 
+    - postgresql-contrib-{{ postgresql_version }}
+    - postgresql-{{ postgresql_version }}
+  when: not present 
+
+- name: Install postgresql
+  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
+  with_items: 
+    - sudo
+    - libpq-dev
+    - postgresql-client
+    - postgresql-contrib-{{ postgresql_version }}
+    - postgresql-{{ postgresql_version }}
+    - python-psycopg2
+  when: present 
 
 - name: Configure postgresql
   template: src=postgresql-{{postgresql_version}}.conf 
             dest=/etc/postgresql/{{postgresql_version}}/main/postgresql.conf mode=755
   register: configure_pg
+  when: present 
 
 - name: Restart postgresql
   service: name=postgresql state=restarted arguments={{postgresql_version}}
   when: configure_pg.changed
+  when: present 
 
 
 - name: Create or update postgresql user
@@ -31,20 +52,24 @@
                     role_attr_flags=CREATEDB,SUPERUSER
                     login_user=postgres
                     port={{postgresql_port}}
+  when: present 
 
 - name: Create root database
   postgresql_db:  name=root
                   login_user=root
                   owner=root
                   port={{postgresql_port}}
+  when: present 
 
 - name: Extension note
   template: src=enabled_extensions.yml
             dest=/etc/postgresql/{{postgresql_version}}/main/enabled_extensions.yml mode=755
   register: postgresql_extensions_note
+  when: present 
 
 - name: Enable extensions 
   command: psql template1 -U root -p {{postgresql_port}} -c 
                 'CREATE EXTENSION IF NOT EXISTS "{{item}}";'
   with_items: postgresql_extensions
   when: postgresql_extensions_note.changed
+  when: present 
