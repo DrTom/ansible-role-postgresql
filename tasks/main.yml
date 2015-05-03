@@ -40,10 +40,8 @@
   when: present 
 
 - name: Restart postgresql
-  service: name=postgresql state=restarted arguments={{postgresql_version}}
-  when: configure_pg.changed
-  when: present 
-
+  service: name=postgresql state=reloaded arguments={{postgresql_version}}
+  when: present and configure_pg.changed
 
 - name: Create or update postgresql user
   sudo_user: postgres
@@ -71,5 +69,4 @@
   command: psql template1 -U root -p {{postgresql_port}} -c 
                 'CREATE EXTENSION IF NOT EXISTS "{{item}}";'
   with_items: postgresql_extensions
-  when: postgresql_extensions_note.changed
-  when: present 
+  when: present and postgresql_extensions_note.changed
