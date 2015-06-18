@@ -39,9 +39,11 @@
   register: configure_pg
   when: present 
 
-- name: Restart postgresql
-  service: name=postgresql state=reloaded arguments={{postgresql_version}}
-  when: present and configure_pg.changed
+- name: started postgresql
+  service: 
+    name: postgresql 
+    state: started
+    arguments: '{{postgresql_version}}'
 
 - name: Create or update postgresql user
   sudo_user: postgres
