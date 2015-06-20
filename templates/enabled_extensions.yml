@@ -1,7 +1,7 @@
 # Ansible managed
 # a note on which extensions are enabled in template1 to keep ansible lazy
 
-enabled_extensions: 
+enabled_extensions:
 {% for extension in postgresql_extensions %}
   - {{ extension }}
 {% endfor %}
