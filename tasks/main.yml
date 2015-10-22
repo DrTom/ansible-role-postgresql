@@ -32,14 +32,10 @@
   service:
     name: postgresql
     state: started
-    arguments: '{{postgresql_version}}'
 
-
-- name: restart postgresql
-  service:
+- service:
     name: postgresql
     state: restarted
-    arguments: '{{postgresql_version}}'
   when: configure_pg.changed
 
 - name: Create or update postgresql user
