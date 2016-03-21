@@ -4,6 +4,6 @@ postgresql_version: 9.4
 postgresql_port: 5432
 postgresql_extensions: ['uuid-ossp', 'pg_trgm', 'pgcrypto']
 
-postgresql_max_connections: "{{ [ansible_processor_count * ansible_processor_count * 25, 100] | max }}"
+postgresql_max_connections: "{{ [ansible_processor_cores * 20, 100] | max }}"
 postgresql_shared_buffers: "{{ (ansible_memtotal_mb * 0.2) | round | int }}MB"
 postgresql_max_prepared_transactions: 0
